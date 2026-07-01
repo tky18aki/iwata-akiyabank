@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>磐田市 空き家バンク・空き家マッチング</title>
+  <meta name="description" content="磐田市の空き家バンク物件情報と空き家マッチングサービス。移住・活用希望者と空き家オーナーをつなぎます。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 0;
+    }
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+    }
+    .service-card-head {
+      padding: 28px 28px 20px;
+    }
+    .service-card-head .icon {
+      font-size: 2.2rem;
+      margin-bottom: 14px;
+    }
+    .service-card-head h2 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--gray-900);
+    }
+    .service-card-head p {
+      font-size: .9rem;
+      color: var(--gray-600);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .service-card-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 0 28px 28px;
+    }
+
+    .news-list { display: flex; flex-direction: column; gap: 0; }
+    .news-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--gray-100);
+      transition: background var(--transition);
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-date {
+      font-size: .8rem;
+      color: var(--gray-400);
+      white-space: nowrap;
+      padding-top: 2px;
+      min-width: 80px;
+    }
+    .news-text {
+      font-size: .9rem;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--gray-600);
+      margin-bottom: 12px;
+      font-weight: 400;
+    }
+
+    .register-banner {
+      background: var(--gray-900);
+      border-radius: var(--radius-lg);
+      padding: 36px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .register-banner h3 {
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .register-banner p {
+      font-size: .9rem;
+      color: var(--gray-400);
+    }
+
+    @media (max-width: 680px) {
+      .service-grid { grid-template-columns: 1fr; }
+      .register-banner { flex-direction: column; text-align: center; }
+      .register-banner .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header" id="header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">
+        磐田市 空き家バンク
+        <span>磐田市 地域おこし協力隊 運営</span>
+      </a>
+      <nav class="nav-links">
+        <a href="akiya-bank.html">空き家バンク物件を探す</a>
+        <a href="akiya-matching.html">空き家マッチング</a>
+        <a href="akiya-bank.html#register" class="nav-cta">空き家バンクに登録する</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- モバイルナビ -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="akiya-bank.html">空き家バンク物件を探す</a>
+    <a href="akiya-matching.html">空き家マッチング</a>
+    <a href="akiya-bank.html#register" class="nav-cta">空き家バンクに登録する</a>
+  </nav>
+
+  <main>
+
+    <!-- ヒーロー -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="container hero-content">
+        <div class="hero-eyebrow">磐田市 地域おこし協力隊 運営</div>
+        <p class="hero-sub">磐田市の空き家を、次の暮らしへ。</p>
+        <h1 class="hero-title fade-up">
+          空き家バンク・<br>空き家マッチング
+        </h1>
+        <p class="hero-desc fade-up">
+          磐田市の空き家物件情報を見やすく整理してお届けします。また、空き家オーナーと活用希望者をつなぐマッチングサービスも提供しています。
+        </p>
+        <div class="hero-btns fade-up">
+          <a href="akiya-bank.html" class="btn btn-primary">物件を探す</a>
+          <a href="akiya-matching.html" class="btn btn-secondary">マッチングを見る</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- サービス説明 -->
+    <section class="section" style="background:var(--gray-50);">
+      <div class="container">
+        <h2 class="section-title fade-up">2つのサービス</h2>
+        <p class="section-sub fade-up">磐田市への移住・空き家活用をサポートします</p>
+        <div class="service-grid">
+
+          <!-- 空き家バンク -->
+          <div class="service-card fade-up">
+            <div class="service-card-head">
+              <div class="icon">🏠</div>
+              <h2>空き家バンク</h2>
+              <p>磐田市の空き家バンクに登録されている物件情報を、エリアや条件で絞り込んで探せるようにまとめています。スマートフォンからでも見やすいカード形式で掲載しています。</p>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--gray-600);">
+                  <span>📍</span>磐田市5エリアから絞り込み
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--gray-600);">
+                  <span>🔍</span>売買・賃貸・古民家・平屋などカテゴリ検索
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--gray-600);">
+                  <span>💰</span>価格帯フィルター・並び替え
+                </div>
+              </div>
+            </div>
+            <div class="service-card-btns">
+              <a href="akiya-bank.html" class="btn btn-primary btn-full">物件一覧を見る</a>
+            </div>
+          </div>
+
+          <!-- 空き家マッチング -->
+          <div class="service-card fade-up">
+            <div class="service-card-head">
+              <div class="icon">🤝</div>
+              <h2>空き家マッチング</h2>
+              <p>空き家を貸したい・売りたいオーナーと、空き家を借りたい・活用したい方の情報を掲示板形式で掲載します。協力隊が橋渡し役となり双方をご紹介します。</p>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--gray-600);">
+                  <span>✅</span>掲載・利用は無料
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--gray-600);">
+                  <span>🔒</span>個人情報は非公開
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--gray-600);">
+                  <span>🏛️</span>契約・交渉は当事者間で実施
+                </div>
+              </div>
+            </div>
+            <div class="service-card-btns">
+              <a href="akiya-matching.html" class="btn btn-primary btn-full">マッチングを見る</a>
+              <a href="akiya-matching.html#register" class="btn btn-secondary btn-full">掲載を申し込む</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 新着物件 -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title fade-up">新着物件</h2>
+        <p class="section-sub fade-up">最近登録された空き家バンク物件</p>
+        <div class="grid-3">
+
+          <div class="card prop-card fade-up" onclick="location.href='akiya-detail.html?id=prop-01'">
+            <div class="card-img-placeholder">物件写真</div>
+            <div class="card-body">
+              <div class="prop-tags">
+                <span class="tag">売買</span>
+                <span class="tag-green tag">磐田</span>
+                <span class="tag">古民家</span>
+              </div>
+              <div class="prop-title">磐田市内　古民家戸建て</div>
+              <div class="prop-price">133万円<small>（税込）</small></div>
+              <div class="prop-specs">
+                <div class="prop-spec">問合せ <strong>富士ヶ丘サービス</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card prop-card fade-up" onclick="location.href='akiya-detail.html?id=prop-02'">
+            <div class="card-img-placeholder">物件写真</div>
+            <div class="card-body">
+              <div class="prop-tags">
+                <span class="tag">売買</span>
+                <span class="tag-green tag">磐田</span>
+              </div>
+              <div class="prop-title">磐田市内　中古戸建住宅</div>
+              <div class="prop-price">1,690万円<small>（税込）</small></div>
+              <div class="prop-specs">
+                <div class="prop-spec">問合せ <strong>富士ヶ丘サービス</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card prop-card fade-up" onclick="location.href='akiya-detail.html?id=prop-05'">
+            <div class="card-img-placeholder">物件写真</div>
+            <div class="card-body">
+              <div class="prop-tags">
+                <span class="tag">売買</span>
+                <span class="tag-green tag">豊岡</span>
+                <span class="tag">古民家</span>
+                <span class="tag">平屋</span>
+              </div>
+              <div class="prop-title">豊岡地区　平屋古民家</div>
+              <div class="prop-price">850万円<small>（税込）</small></div>
+              <div class="prop-specs">
+                <div class="prop-spec">問合せ <strong>富士ヶ丘サービス</strong></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div style="text-align:center;margin-top:32px;">
+          <a href="akiya-bank.html" class="btn btn-secondary fade-up">物件一覧をすべて見る</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- お知らせ -->
+    <section class="section" style="background:var(--gray-50);">
+      <div class="container">
+        <h2 class="section-title fade-up">お知らせ</h2>
+        <div style="max-width:680px;margin:0 auto;" class="fade-up">
+          <div class="news-list">
+            <div class="news-item">
+              <span class="news-date">2026.06.01</span>
+              <span class="news-text">
+                <span class="tag" style="margin-right:8px;font-size:.75rem;">新着物件</span>
+                豊岡地区に平屋古民家が新規登録されました
+              </span>
+            </div>
+            <div class="news-item">
+              <span class="news-date">2026.05.20</span>
+              <span class="news-text">
+                <span class="tag-green tag" style="margin-right:8px;font-size:.75rem;">マッチング</span>
+                空き家マッチングサービスを開始しました
+              </span>
+            </div>
+            <div class="news-item">
+              <span class="news-date">2026.05.10</span>
+              <span class="news-text">
+                <span class="tag-gray tag" style="margin-right:8px;font-size:.75rem;">お知らせ</span>
+                磐田市 空き家バンクWebサイトを公開しました
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 空き家バンク登録バナー -->
+    <section class="section">
+      <div class="container">
+        <div class="register-banner fade-up">
+          <div>
+            <h3>空き家をお持ちの方へ</h3>
+            <p>空き家バンクへの登録・マッチングのご相談は協力隊までお気軽にどうぞ。</p>
+          </div>
+          <a href="akiya-matching.html#register" class="btn btn-primary">無料で相談・登録する</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-logo">磐田市 空き家バンク</div>
+          <p class="footer-desc">磐田市 地域おこし協力隊が運営する空き家バンク・マッチングサービスです。</p>
+        </div>
+        <div>
+          <div class="footer-heading">メニュー</div>
+          <ul class="footer-links">
+            <li><a href="index.html">ホーム</a></li>
+            <li><a href="akiya-bank.html">空き家バンク物件を探す</a></li>
+            <li><a href="akiya-matching.html">空き家マッチング</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">登録・相談</div>
+          <ul class="footer-links">
+            <li><a href="akiya-bank.html#register">空き家バンクに登録する</a></li>
+            <li><a href="akiya-matching.html#register">マッチングに掲載する</a></li>
+            <li><a href="https://www.city.iwata.shizuoka.jp/kurashi_tetsuzuki/juutaku_pet_seikatsu/1010112/1009122/index.html" target="_blank">磐田市公式空き家バンク ↗</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 磐田市 地域おこし協力隊. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    });
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+    });
+    mobileNav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileNav.classList.remove('open');
+      });
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
