@@ -676,41 +676,50 @@
 
   <script>
     const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 10);
-    });
+    if (header) {
+      window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 10);
+      });
+    }
+
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobileNav');
     const mobileSubToggle = document.getElementById('mobileSubToggle');
     const mobileSubMenu = document.getElementById('mobileSubMenu');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      mobileNav.classList.toggle('open');
-      if (!mobileNav.classList.contains('open')) {
-        mobileSubToggle.setAttribute('aria-expanded', 'false');
-        mobileSubMenu.classList.remove('open');
-      }
-    });
-    mobileSubToggle.addEventListener('click', () => {
-      const expanded = mobileSubToggle.getAttribute('aria-expanded') === 'true';
-      mobileSubToggle.setAttribute('aria-expanded', String(!expanded));
-      mobileSubMenu.classList.toggle('open');
-    });
-    mobileNav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        mobileNav.classList.remove('open');
-        mobileSubToggle.setAttribute('aria-expanded', 'false');
-        mobileSubMenu.classList.remove('open');
+
+    if (hamburger && mobileNav && mobileSubToggle && mobileSubMenu) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileNav.classList.toggle('open');
+        if (!mobileNav.classList.contains('open')) {
+          mobileSubToggle.setAttribute('aria-expanded', 'false');
+          mobileSubMenu.classList.remove('open');
+        }
       });
-    });
+
+      mobileSubToggle.addEventListener('click', () => {
+        const expanded = mobileSubToggle.getAttribute('aria-expanded') === 'true';
+        mobileSubToggle.setAttribute('aria-expanded', String(!expanded));
+        mobileSubMenu.classList.toggle('open');
+      });
+
+      mobileNav.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          hamburger.classList.remove('open');
+          mobileNav.classList.remove('open');
+          mobileSubToggle.setAttribute('aria-expanded', 'false');
+          mobileSubMenu.classList.remove('open');
+        });
+      });
+    }
 
     // タブ切り替え
-    function switchTab(id) {
+    function switchTab(id, eventTarget) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      document.getElementById('tab-' + id).classList.add('active');
-      event.target.classList.add('active');
+      const targetPanel = document.getElementById('tab-' + id);
+      if (targetPanel) targetPanel.classList.add('active');
+      if (eventTarget) eventTarget.classList.add('active');
     }
 
     // フェードアップ
