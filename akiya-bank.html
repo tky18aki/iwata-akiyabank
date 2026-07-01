@@ -593,36 +593,27 @@
   <script>
     // ヘッダースクロール
     const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 10);
-    });
+    if (header) {
+      window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 10);
+      });
+    }
 
     // ハンバーガー
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobileNav');
-    const mobileSubToggle = document.getElementById('mobileSubToggle');
-    const mobileSubMenu = document.getElementById('mobileSubMenu');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      mobileNav.classList.toggle('open');
-      if (!mobileNav.classList.contains('open')) {
-        mobileSubToggle.setAttribute('aria-expanded', 'false');
-        mobileSubMenu.classList.remove('open');
-      }
-    });
-    mobileSubToggle.addEventListener('click', () => {
-      const expanded = mobileSubToggle.getAttribute('aria-expanded') === 'true';
-      mobileSubToggle.setAttribute('aria-expanded', String(!expanded));
-      mobileSubMenu.classList.toggle('open');
-    });
-    mobileNav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        mobileNav.classList.remove('open');
-        mobileSubToggle.setAttribute('aria-expanded', 'false');
-        mobileSubMenu.classList.remove('open');
+    if (hamburger && mobileNav) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileNav.classList.toggle('open');
       });
-    });
+      mobileNav.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          hamburger.classList.remove('open');
+          mobileNav.classList.remove('open');
+        });
+      });
+    }
 
     // フェードアップ
     const observer = new IntersectionObserver((entries) => {
@@ -632,7 +623,7 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    // --- 絞り込み・並び替えロジック ---
+    // 絞り込み変数（必ずselectMapAreaより前に定義する）
     let currentArea = 'all';
     let currentCat  = 'all';
     let currentPrice = 'all';
@@ -644,14 +635,15 @@
     function selectMapArea(id) {
       currentArea = id;
       document.querySelectorAll('.area-path').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.area-btn').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.map-chip').forEach(c => c.classList.remove('active'));
       if (id !== 'all') {
         const path = document.getElementById('map-' + id);
         if (path) path.classList.add('active');
-        const btn = document.getElementById('abtn-' + id);
-        if (btn) btn.classList.add('active');
+        const chip = document.getElementById('mchip-' + id);
+        if (chip) chip.classList.add('active');
       } else {
-        document.querySelector('.area-btn.all-btn').classList.add('active');
+        const allChip = document.querySelector('.map-chip.all-chip');
+        if (allChip) allChip.classList.add('active');
       }
       applyFilters();
     }
@@ -667,24 +659,30 @@
     });
 
     // 価格帯
-    document.getElementById('priceFilter').addEventListener('change', function() {
-      currentPrice = this.value;
-      applyFilters();
-    });
+    const priceFilter = document.getElementById('priceFilter');
+    if (priceFilter) {
+      priceFilter.addEventListener('change', function() {
+        currentPrice = this.value;
+        applyFilters();
+      });
+    }
 
     // 並び替え
-    document.getElementById('sortSelect').addEventListener('change', function() {
-      currentSort = this.value;
-      applyFilters();
-    });
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function() {
+        currentSort = this.value;
+        applyFilters();
+      });
+    }
 
     function applyFilters() {
       const grid = document.getElementById('propsGrid');
+      if (!grid) return;
 
-      // フィルタリング
       let visible = allCards.filter(card => {
         const area = card.dataset.area;
-        const cats = card.dataset.cat.split(' ');
+        const cats = card.dataset.cat ? card.dataset.cat.split(' ') : [];
         const price = parseInt(card.dataset.price);
 
         if (currentArea !== 'all' && area !== currentArea) return false;
@@ -694,11 +692,9 @@
           const [min, max] = currentPrice.split('-').map(v => v === '' ? Infinity : parseInt(v));
           if (price < min || price > (max || Infinity)) return false;
         }
-
         return true;
       });
 
-      // 並び替え
       if (currentSort === 'price-asc') {
         visible.sort((a, b) => parseInt(a.dataset.price) - parseInt(b.dataset.price));
       } else if (currentSort === 'price-desc') {
@@ -707,15 +703,17 @@
         visible.sort((a, b) => parseInt(b.dataset.sortDate) - parseInt(a.dataset.sortDate));
       }
 
-      // 表示更新
       allCards.forEach(c => c.style.display = 'none');
       visible.forEach(c => {
         c.style.display = '';
         grid.appendChild(c);
       });
 
-      document.getElementById('resultCount').textContent = visible.length;
-      document.getElementById('noResults').style.display = visible.length === 0 ? 'block' : 'none';
+      const resultCount = document.getElementById('resultCount');
+      if (resultCount) resultCount.textContent = visible.length;
+
+      const noResults = document.getElementById('noResults');
+      if (noResults) noResults.style.display = visible.length === 0 ? 'block' : 'none';
     }
   </script>
 
