@@ -48,7 +48,55 @@
       overflow: hidden;
     }
     .photo-thumb:hover { border-color: var(--blue); }
+    .photo-thumb.active { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(33, 150, 243, .15); }
     .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .photo-main { cursor: pointer; position: relative; }
+    .photo-main::after {
+      content: 'タップで拡大';
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,.45);
+      color: #fff;
+      font-size: .8rem;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      padding: 24px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: var(--radius-md);
+      box-shadow: 0 24px 70px rgba(0,0,0,.45);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.75);
+      background: rgba(0,0,0,.45);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
 
     .prop-header { margin-bottom: 24px; }
     .prop-header .prop-tags { margin-bottom: 10px; }
@@ -406,7 +454,7 @@
           { key: '採光',     val: '南向き' },
           { key: '備考',     val: '図面と現況が異なる場合は現況優先。現況渡し、境界未確定。' },
         ],
-        contact: { name: '株式会社カワイ ICOI不動産事業部', tel: 'TEL：0539-62-9200', url: 'http://www.kk-kawai.com' },
+        contact: { name: '富士ヶ丘サービス株式会社', tel: 'TEL：0538-31-3308' },
       },
       'prop-02': {
         title: '磐田市内　中古戸建住宅',
@@ -607,16 +655,65 @@
     if (prop.photos && prop.photos.length) {
       const photoMain = document.getElementById('photoMain');
       const thumbsWrap = document.querySelector('.photo-thumbs');
-      const showMain = src => {
-        photoMain.innerHTML = `<img src="${src}" alt="${prop.title}">`;
+      const lightbox = document.createElement('div');
+      lightbox.className = 'lightbox';
+      lightbox.innerHTML = `
+        <button class="lightbox-close" aria-label="閉じる">✕</button>
+        <img src="${prop.photos[0]}" alt="${prop.title}">
+      `;
+      document.body.appendChild(lightbox);
+
+      let currentPhotoIndex = 0;
+      let slideTimer = null;
+
+      const showMain = index => {
+        const src = prop.photos[index];
+        currentPhotoIndex = index;
+        photoMain.innerHTML = `<img src="${src}" alt="${prop.title} 写真${index + 1}">`;
+        thumbsWrap.querySelectorAll('.photo-thumb').forEach((thumb, i) => {
+          thumb.classList.toggle('active', i === index);
+        });
+        const lightboxImg = lightbox.querySelector('img');
+        if (lightboxImg) lightboxImg.src = src;
       };
-      showMain(prop.photos[0]);
+
+      const startSlide = () => {
+        stopSlide();
+        slideTimer = setInterval(() => {
+          const next = (currentPhotoIndex + 1) % prop.photos.length;
+          showMain(next);
+        }, 4500);
+      };
+      const stopSlide = () => {
+        if (slideTimer) {
+          clearInterval(slideTimer);
+          slideTimer = null;
+        }
+      };
+
+      showMain(0);
       thumbsWrap.innerHTML = prop.photos.map((src, i) =>
-        `<div class="photo-thumb" data-src="${src}"><img src="${src}" alt="${prop.title} 写真${i + 1}"></div>`
+        `<div class="photo-thumb${i === 0 ? ' active' : ''}" data-src="${src}" data-index="${i}"><img src="${src}" alt="${prop.title} 写真${i + 1}"></div>`
       ).join('');
       thumbsWrap.querySelectorAll('.photo-thumb').forEach(thumb => {
-        thumb.addEventListener('click', () => showMain(thumb.dataset.src));
+        thumb.addEventListener('click', () => {
+          const index = parseInt(thumb.dataset.index, 10);
+          showMain(index);
+          startSlide();
+        });
       });
+
+      photoMain.addEventListener('click', () => {
+        lightbox.classList.add('open');
+      });
+      lightbox.addEventListener('click', e => {
+        if (e.target === lightbox || e.target.closest('.lightbox-close')) {
+          lightbox.classList.remove('open');
+        }
+      });
+      photoMain.addEventListener('mouseenter', stopSlide);
+      photoMain.addEventListener('mouseleave', startSlide);
+      startSlide();
     }
 
     // 基本情報
