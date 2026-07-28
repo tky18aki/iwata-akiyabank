@@ -251,14 +251,16 @@
       </div>
 
       <!-- メイン写真 -->
-      <div class="photo-main" id="photoMain">写真準備中</div>
+      <div class="photo-main" id="photoMain">
+        <img src="images/akiya/prop-01/exterior-1.png" alt="磐田市大平 平屋古民家の外観">
+      </div>
 
       <!-- サムネイル -->
       <div class="photo-thumbs">
-        <div class="photo-thumb">写真2</div>
-        <div class="photo-thumb">写真3</div>
-        <div class="photo-thumb">写真4</div>
-        <div class="photo-thumb">写真5</div>
+        <div class="photo-thumb" data-src="images/akiya/prop-01/exterior-1.png"><img src="images/akiya/prop-01/exterior-1.png" alt="外観1"></div>
+        <div class="photo-thumb" data-src="images/akiya/prop-01/exterior-2.png"><img src="images/akiya/prop-01/exterior-2.png" alt="外観2"></div>
+        <div class="photo-thumb" data-src="images/akiya/prop-01/interior-1.png"><img src="images/akiya/prop-01/interior-1.png" alt="和室内部"></div>
+        <div class="photo-thumb" data-src="images/akiya/prop-01/floorplan.png"><img src="images/akiya/prop-01/floorplan.png" alt="間取り図"></div>
       </div>
 
       <!-- 基本情報 -->
@@ -374,17 +376,18 @@
     const properties = {
       'prop-01': {
         title: '磐田市大平　平屋古民家（5DK）',
-        catch: '歴史ある古民家を活かす5DK。広い敷地と落ち着いた庭園をのんびりと楽しみたい方におすすめの一軒です。',
+        catch: '広い敷地に佇む古民家。和室が連なる落ち着いた間取りと、庭を望む静かな暮らしが魅力です。',
         price: '300万円',
         priceNote: '（税込）',
         photos: [
           'images/akiya/prop-01/exterior-1.png',
           'images/akiya/prop-01/exterior-2.png',
+          'images/akiya/prop-01/interior-1.png',
           'images/akiya/prop-01/floorplan.png',
         ],
         tags: [{ label: '売買', cls: 'tag' }, { label: '豊岡', cls: 'tag-green tag' }, { label: '古民家', cls: 'tag' }, { label: '平屋', cls: 'tag' }],
         basic: [
-          { key: '物件種類', val: '戸建て（平屋・古民家）' },
+          { key: '物件種類', val: '戸建て（古民家）' },
           { key: '所在地',   val: '静岡県磐田市大平788-1' },
           { key: '間取り',   val: '5DK' },
           { key: '建物面積', val: '120.32㎡' },
@@ -400,8 +403,8 @@
           { key: '現況',     val: '空き家' },
           { key: '引き渡し', val: '相談' },
           { key: '設備',     val: '温水洗浄便座・照明器具・浄化槽・側溝' },
-          { key: '採光',     val: '主要採光面：南向き' },
-          { key: '備考',     val: '東側3.8m公道に接面26.5m、地勢は緩傾斜地。一部壁式RC造は契約不適合責任免責、売主による境界確定測量なし' },
+          { key: '採光',     val: '南向き' },
+          { key: '備考',     val: '図面と現況が異なる場合は現況優先。現況渡し、境界未確定。' },
         ],
         contact: { name: '株式会社カワイ ICOI不動産事業部', tel: 'TEL：0539-62-9200', url: 'http://www.kk-kawai.com' },
       },
