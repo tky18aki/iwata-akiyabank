@@ -82,21 +82,24 @@
       border-radius: var(--radius-md);
       box-shadow: 0 24px 70px rgba(0,0,0,.45);
     }
-    .lightbox-close {
+    .lightbox-close,
+    .lightbox-nav button {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 38px;
-      height: 38px;
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,.75);
       background: rgba(0,0,0,.45);
       color: #fff;
+      width: 42px;
+      height: 42px;
       display: grid;
       place-items: center;
       font-size: 1.1rem;
       cursor: pointer;
     }
+    .lightbox-close { top: 20px; right: 20px; }
+    .lightbox-nav { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; pointer-events: none; }
+    .lightbox-nav button { pointer-events: auto; }
+    .lightbox-nav button:hover { background: rgba(0,0,0,.65); }
 
     .prop-header { margin-bottom: 24px; }
     .prop-header .prop-tags { margin-bottom: 10px; }
@@ -430,7 +433,6 @@
         photos: [
           'images/akiya/prop-01/exterior-1.png',
           'images/akiya/prop-01/exterior-2.png',
-          'images/akiya/prop-01/interior-1.png',
           'images/akiya/prop-01/floorplan.png',
         ],
         tags: [{ label: '売買', cls: 'tag' }, { label: '豊岡', cls: 'tag-green tag' }, { label: '古民家', cls: 'tag' }, { label: '平屋', cls: 'tag' }],
@@ -659,12 +661,15 @@
       lightbox.className = 'lightbox';
       lightbox.innerHTML = `
         <button class="lightbox-close" aria-label="閉じる">✕</button>
+        <div class="lightbox-nav">
+          <button class="lightbox-prev" aria-label="前の画像">‹</button>
+          <button class="lightbox-next" aria-label="次の画像">›</button>
+        </div>
         <img src="${prop.photos[0]}" alt="${prop.title}">
       `;
       document.body.appendChild(lightbox);
 
       let currentPhotoIndex = 0;
-      let slideTimer = null;
 
       const showMain = index => {
         const src = prop.photos[index];
@@ -674,46 +679,51 @@
           thumb.classList.toggle('active', i === index);
         });
         const lightboxImg = lightbox.querySelector('img');
-        if (lightboxImg) lightboxImg.src = src;
+        if (lightboxImg) {
+          lightboxImg.src = src;
+          lightboxImg.alt = `${prop.title} 写真${index + 1}`;
+        }
       };
 
-      const startSlide = () => {
-        stopSlide();
-        slideTimer = setInterval(() => {
-          const next = (currentPhotoIndex + 1) % prop.photos.length;
-          showMain(next);
-        }, 4500);
+      const showNext = () => {
+        showMain((currentPhotoIndex + 1) % prop.photos.length);
       };
-      const stopSlide = () => {
-        if (slideTimer) {
-          clearInterval(slideTimer);
-          slideTimer = null;
-        }
+      const showPrev = () => {
+        showMain((currentPhotoIndex - 1 + prop.photos.length) % prop.photos.length);
       };
 
       showMain(0);
       thumbsWrap.innerHTML = prop.photos.map((src, i) =>
-        `<div class="photo-thumb${i === 0 ? ' active' : ''}" data-src="${src}" data-index="${i}"><img src="${src}" alt="${prop.title} 写真${i + 1}"></div>`
+        `<div class="photo-thumb${i === 0 ? ' active' : ''}" data-index="${i}"><img src="${src}" alt="${prop.title} 写真${i + 1}"></div>`
       ).join('');
       thumbsWrap.querySelectorAll('.photo-thumb').forEach(thumb => {
         thumb.addEventListener('click', () => {
           const index = parseInt(thumb.dataset.index, 10);
           showMain(index);
-          startSlide();
         });
       });
 
       photoMain.addEventListener('click', () => {
         lightbox.classList.add('open');
       });
+
+      const closeBtn = lightbox.querySelector('.lightbox-close');
+      const prevBtn = lightbox.querySelector('.lightbox-prev');
+      const nextBtn = lightbox.querySelector('.lightbox-next');
+
       lightbox.addEventListener('click', e => {
-        if (e.target === lightbox || e.target.closest('.lightbox-close')) {
+        if (e.target === lightbox || e.target === closeBtn) {
           lightbox.classList.remove('open');
         }
       });
-      photoMain.addEventListener('mouseenter', stopSlide);
-      photoMain.addEventListener('mouseleave', startSlide);
-      startSlide();
+      if (prevBtn) prevBtn.addEventListener('click', showPrev);
+      if (nextBtn) nextBtn.addEventListener('click', showNext);
+      document.addEventListener('keydown', e => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'ArrowRight') showNext();
+        if (e.key === 'ArrowLeft') showPrev();
+        if (e.key === 'Escape') lightbox.classList.remove('open');
+      });
     }
 
     // 基本情報
