@@ -339,27 +339,36 @@
     const mobileNav = document.getElementById('mobileNav');
     const mobileSubToggle = document.getElementById('mobileSubToggle');
     const mobileSubMenu = document.getElementById('mobileSubMenu');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      mobileNav.classList.toggle('open');
-      if (!mobileNav.classList.contains('open')) {
-        mobileSubToggle.setAttribute('aria-expanded', 'false');
-        mobileSubMenu.classList.remove('open');
-      }
-    });
-    mobileSubToggle.addEventListener('click', () => {
-      const expanded = mobileSubToggle.getAttribute('aria-expanded') === 'true';
-      mobileSubToggle.setAttribute('aria-expanded', String(!expanded));
-      mobileSubMenu.classList.toggle('open');
-    });
-    mobileNav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        mobileNav.classList.remove('open');
-        mobileSubToggle.setAttribute('aria-expanded', 'false');
-        mobileSubMenu.classList.remove('open');
+
+    if (hamburger && mobileNav) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileNav.classList.toggle('open');
+        if (!mobileNav.classList.contains('open') && mobileSubToggle && mobileSubMenu) {
+          mobileSubToggle.setAttribute('aria-expanded', 'false');
+          mobileSubMenu.classList.remove('open');
+        }
       });
-    });
+
+      if (mobileSubToggle && mobileSubMenu) {
+        mobileSubToggle.addEventListener('click', () => {
+          const expanded = mobileSubToggle.getAttribute('aria-expanded') === 'true';
+          mobileSubToggle.setAttribute('aria-expanded', String(!expanded));
+          mobileSubMenu.classList.toggle('open');
+        });
+      }
+
+      mobileNav.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          hamburger.classList.remove('open');
+          mobileNav.classList.remove('open');
+          if (mobileSubToggle && mobileSubMenu) {
+            mobileSubToggle.setAttribute('aria-expanded', 'false');
+            mobileSubMenu.classList.remove('open');
+          }
+        });
+      });
+    }
 
     // 物件データ
     const properties = {
